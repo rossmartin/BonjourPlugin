@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <!--<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />-->
+        <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <link rel="stylesheet" href="css/jquery.mobile-1.2.0.min.css" >
+        <title>Bonjour Sample</title>
+        <script type="text/javascript" charset="utf-8" src="js/jquery-1.8.3.min.js"></script>
+        <script type="text/javascript" src="cordova-2.2.0.js"></script>
+        <script type="text/javascript" src="js/functions.js"></script>
+        <script type="text/javascript" src="js/bonjour.js"></script>
+        <!-- load jQuery Mobile last -->
+        <script type="text/javascript" charset="utf-8" src="js/jquery.mobile-1.2.0.min.js"></script>
+    </head>
+    <body>
+        <div data-role="page" id="mainPage" class="list-and-button">
+            <div data-role="header" class="header-class">
+                <div style="text-align:center;line-height:40px;">PhoneGap Bonjour Plugin</div>
+            </div><!-- /header -->
+            <div data-role="content" class="ui-section">
+                <ul data-role="listview" id="mainListview">
+                    <li data-role="list-divider">Bonjour Functions</li>
+                    <li class="main"><a href="#" id="publishService">Publish Bonjour Service</a></li>
+                    <li class="main"><a href="#" id="startBrowser">Start Bonjour Browser</a></li>
+                </ul>
+            </div><!-- /content -->
+            <div data-role="footer" class="footer">
+            </div><!-- /footer -->
+        </div><!-- /page -->
+    
+        <div data-role="page" id="browserPage" class="list-and-button">
+            <div data-role="header" class="header-class">
+                <div style="text-align:center;line-height:40px;">Bonjour Browser</div>
+                <a data-role="button" data-rel="back"  data-icon="arrow-l" data-inline="true" data-mini="true" data-theme="c" class="back-btn">Back</a>
+            </div><!-- /header -->
+            <div data-role="content" class="ui-section">
+                <div id="deviceSendContainer" align="center" style="padding-top:15px;">
+                    <img id="sendDataLoadIcon" src="img/transparent-loader.gif" style="width:32px; height:32px; vertical-align:middle;" />
+                    <span id="lookForReceive" style='padding-left:10px; font-weight:bold;'>
+                        Looking for broadcasting devices...
+                    </span>
+                    <div id="sendInstructionsContainer" style="padding-top:12px; text-align:left;">
+                        Go to "Publish Bonjour Service" on another iOS device running this app connected to this wireless network.
+                    </div>
+                </div><!-- end deviceSendContainer -->
+                <div id="deviceListviewContainer" style="padding-top:30px;">
+                    <ul data-role="listview" id="deviceListview"></ul> <!-- this will be filled dynamically -->
+                </div>
+            </div><!-- /content -->
+            <div data-role="footer" class="footer">
+            </div><!-- /footer -->
+        </div><!-- /page -->
+
+        <div data-role="page" id="publishPage" class="list-and-button">
+            <div data-role="header" class="header-class">
+                <div id="publishPageHeader" style="text-align:center;line-height:40px;">Bonjour Service Running</div>
+                <a data-role="button" data-rel="back"  data-icon="arrow-l" data-inline="true" data-mini="true" data-theme="c" class="back-btn">Back</a>
+            </div><!-- /header -->
+            <div data-role="content" class="ui-section">
+                <div id="deviceReceiveContainer" align="center" style="padding-top:15px;">
+                    <img id="receiveDataLoadIcon" src="img/transparent-loader.gif" style="width:32px; height:32px; vertical-align:middle;" />
+                    <span id="lookForSend" style='padding-left:10px; font-weight:bold;'>
+                        Now broadcasting...
+                    </span>
+                    <div id="receiveInstructionsContainer" style="padding-top:12px; text-align:left;">
+                        Go to "Start Bonjour Browser" on another iOS device running this app connected to this wireless network.
+                    </div>
+                </div>
+            </div><!-- /content -->
+            <div data-role="footer" class="footer">
+            </div><!-- /footer -->
+        </div><!-- /page -->
+    </body>
+</html>
