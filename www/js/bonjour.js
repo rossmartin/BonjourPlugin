@@ -139,7 +139,7 @@ function changeBrowserPage(){ // called from NetServiceResolutionDelegate.m when
     cordova.exec(stopServiceBrowserCB, stopServiceBrowserFail, 'BonjourPlugin', 'stopServiceBrowser', ['']);
 }
 
-function appendNetworkDevices(jsonEscaped){ // called from netServiceBrowserDelegate.m when sending device finishes finding devices over Bonjour
+function appendNetworkDevices(jsonEscaped){ // called from SocketClientDelegate.m when sending device finishes finding devices over Bonjour
     console.log("appendNetworkDevices function is firing");
     console.log("jsonEscaped ====> " + jsonEscaped);
     var deviceJSON = decodeURIComponent(jsonEscaped);
