@@ -29,11 +29,11 @@ $(document).on('mobileinit', function() {
     $("#browserPage").live("pagebeforeshow", function(){
         console.log('about to browse');
         resetBrowserPage(); // resetBrowserPage function located below outside of dom ready
-        window.plugins.bonjour.browse('SampleServiceName');
+        window.plugins.bonjour.startBrowser('SampleServiceName');
     });
 
     $("#browserPage").live("pagehide", function(){
-        window.plugins.bonjour.stopServiceBrowser();
+        window.plugins.bonjour.stopBrowser();
     });
 
     // publishPage jQM events
@@ -44,7 +44,7 @@ $(document).on('mobileinit', function() {
     });
 
     $("#publishPage").live("pagehide", function(){
-        window.plugins.bonjour.stopService();
+        window.plugins.bonjour.unpublishService();
     });
 
     // browserPage functions

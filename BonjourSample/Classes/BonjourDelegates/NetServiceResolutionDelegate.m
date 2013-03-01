@@ -52,7 +52,7 @@
     NSLog(@"address =====> %@", address); // prints out a pointer memory address.  mac, ip, & port can be given from this
     NSLog(@"name ====> %@", name);
     NSLog(@"hostName ===> %@", hostName);
-    
+
     SocketClientDelegate *clientDelegate; // all the client socket delegate methods will be in SocketClientDelegate.m
     clientDelegate = [[SocketClientDelegate alloc] init];
     

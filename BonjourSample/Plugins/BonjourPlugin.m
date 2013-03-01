@@ -29,7 +29,7 @@ A service browser is created and begins searching, it's
 delegate methods are in NetServiceBrowserDelegate.m
 You can make a call to this method to start a bonjour browser
 ***/
-- (void) browse:(CDVInvokedUrlCommand*)command
+- (void) startBrowser:(CDVInvokedUrlCommand*)command
 {
     CDVPluginResult* pluginResult = nil;
     NSString* javaScript = nil;
@@ -140,7 +140,7 @@ You can make a call to this method to publish a bonjour service
 }
 
 // this is called from the publish page pagehide event & when device has received json from sending device
-- (void) stopService:(CDVInvokedUrlCommand *)command
+- (void) unpublishService:(CDVInvokedUrlCommand *)command
 {
     CDVPluginResult* pluginResult = nil;
     NSString* javaScript = nil;
@@ -154,7 +154,7 @@ You can make a call to this method to publish a bonjour service
 }
 
 // this is called from the browser page pagehide event & when device has sent json to receiving device
-- (void) stopServiceBrowser:(CDVInvokedUrlCommand *)command
+- (void) stopBrowser:(CDVInvokedUrlCommand *)command
 {
     CDVPluginResult* pluginResult = nil;
     NSString* javaScript = nil;

@@ -12,15 +12,17 @@
 
 @interface BonjourPlugin : CDVPlugin
 
-- (void) browse:(CDVInvokedUrlCommand*)command;
+- (void) startBrowser:(CDVInvokedUrlCommand*)command;
 
 - (void) publishService:(CDVInvokedUrlCommand*)command;
 
 - (void) selectService:(CDVInvokedUrlCommand*)command;
 
-- (void) stopService:(CDVInvokedUrlCommand*)command;
+- (void) unpublishService:(CDVInvokedUrlCommand*)command;
 
-- (void) stopServiceBrowser:(CDVInvokedUrlCommand*)command;
+- (void) stopBrowser:(CDVInvokedUrlCommand*)command;
+
+- (void) didConnectToServer:(CDVInvokedUrlCommand*)command;
 
 - (void) sendClientData:(CDVInvokedUrlCommand*)command;
 

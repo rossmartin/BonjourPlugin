@@ -36,20 +36,20 @@
     /* The interface that you will use to access functionality */
 
     BonjourPlugin.prototype = {
-        browse: function(serviceType) {
-            cordovaRef.exec('BonjourPlugin.browse', serviceType);
+        startBrowser: function(serviceType) {
+            cordovaRef.exec('BonjourPlugin.startBrowser', serviceType);
         },
         publishService: function(serviceType) {
             cordovaRef.exec('BonjourPlugin.publishService', serviceType);
         },
-        stopService: function() {
-            cordovaRef.exec('BonjourPlugin.stopService');
+        unpublishService: function() {
+            cordovaRef.exec('BonjourPlugin.unpublishService');
         },
         selectService: function(deviceName) {
             cordovaRef.exec('BonjourPlugin.selectService', deviceName);
         },
-        stopServiceBrowser: function() {
-            cordovaRef.exec('BonjourPlugin.stopServiceBrowser');
+        stopBrowser: function() {
+            cordovaRef.exec('BonjourPlugin.stopBrowser');
         },
         sendClientData: function(data) {
             cordovaRef.exec('BonjourPlugin.sendClientData', data);
