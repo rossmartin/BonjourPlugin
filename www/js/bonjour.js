@@ -48,7 +48,8 @@ $(function(){ // start of dom ready
         deviceNameToSendData = $(this).text(); // global defined above, will be used again in showDialog w/o being passed as a parameter
         showLoader();
         console.log("network device was clicked and deviceName ====> " + deviceNameToSendData);
-        cordova.exec(selectServiceCB, selectServiceFail, "BonjourPlugin", "selectService", [deviceNameToSendData]);
+        window.plugins.bonjour.selectService(deviceNameToSendData);
+//        cordova.exec(selectServiceCB, selectServiceFail, "BonjourPlugin", "selectService", [deviceNameToSendData]);
     });
 
   
