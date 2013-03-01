@@ -49,7 +49,6 @@ $(function(){ // start of dom ready
         showLoader();
         console.log("network device was clicked and deviceName ====> " + deviceNameToSendData);
         window.plugins.bonjour.selectService(deviceNameToSendData);
-//        cordova.exec(selectServiceCB, selectServiceFail, "BonjourPlugin", "selectService", [deviceNameToSendData]);
     });
 
   
@@ -57,7 +56,7 @@ $(function(){ // start of dom ready
         console.log("#resetBrowserPageButton was clicked, starting native call");
         // show original content now
         resetBrowserPage(); // resetBrowserPage function located below outside of dom ready
-        cordova.exec(browseCB, browseFail, "BonjourPlugin", "browse", [""]);
+        window.plugins.bonjour.browse();
     });
   
     // publishPage functions
@@ -79,14 +78,6 @@ function disconnectServiceCB(){
 
 function disconnectServiceFail(){
     console.log("disconnectServiceFail fail callback");        
-}
-
-function selectServiceCB(){
-    console.log("selectServiceCB success callback");
-}
-
-function selectServiceFail(){
-    console.log("selectServiceFail fail callback");
 }
 
 function publishServiceCB(){
