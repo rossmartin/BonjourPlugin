@@ -25,11 +25,10 @@ $(function(){ // start of dom ready
     $("#browserPage").on("pagebeforeshow", function(){
         resetBrowserPage(); // resetBrowserPage function located below outside of dom ready
         window.plugins.bonjour.browse();
-//        cordova.exec(browseCB, browseFail, "BonjourPlugin", "browse", [""]); // starts bonjour service browser
     });
   
     $("#browserPage").on("pagehide", function(){
-        cordova.exec(stopServiceBrowserCB, stopServiceBrowserFail, "BonjourPlugin", "stopServiceBrowser", [""]); // stops bonjour service browser
+        window.plugins.bonjour.stopServiceBrowser();
     });
   
     // publishPage jQM events
@@ -79,14 +78,6 @@ function disconnectServiceCB(){
 
 function disconnectServiceFail(){
     console.log("disconnectServiceFail fail callback");        
-}
-
-function stopServiceBrowserCB(){
-    console.log("stopServiceBrowserCB");
-}
-
-function stopServiceBrowserFail(){
-    console.log("stopServiceBrowserFail");
 }
 
 function selectServiceCB(){
