@@ -21,6 +21,7 @@
 NSNetService *service;
 NSNetServiceBrowser *serviceBrowser;
 NetServiceResolutionDelegate *nsResolutionDelegate;
+GCDAsyncSocket *serverSocket;
 
 @implementation BonjourPlugin
 
@@ -66,15 +67,17 @@ You can make a call to this method to publish a bonjour service
     SocketServerDelegate *serverDelegate; // all the server socket delegate methods will be in SocketServerDelegate.m
     serverDelegate = [[SocketServerDelegate alloc] init];
     
-    GCDAsyncSocket *listenSocket;
-    listenSocket = [[GCDAsyncSocket alloc] initWithDelegate:serverDelegate delegateQueue:dispatch_get_main_queue()];
+//    GCDAsyncSocket *listenSocket;
+    if (!serverSocket) {
+        serverSocket = [[GCDAsyncSocket alloc] initWithDelegate:serverDelegate delegateQueue:dispatch_get_main_queue()];
+    }
     
     NSError *err = nil;
-	if ([listenSocket acceptOnPort:0 error:&err]) // create the server socket
+	if ([serverSocket acceptOnPort:0 error:&err]) // create the server socket
 	{
 		// So what port did the OS give us?
 
-		UInt16 port = [listenSocket localPort];
+		UInt16 port = [serverSocket localPort];
         NSLog(@"iOS gave us port %d", port);
 
 		// Create and publish the bonjour service.
@@ -175,10 +178,9 @@ You can make a call to this method to publish a bonjour service
     CDVPluginResult* pluginResult = nil;
     NSString* javaScript = nil;
     NSString* data = [command.arguments objectAtIndex:0];
-    
-    NSLog(@"NOT IMPLEMENTED: data=%@", data);
-     NSString *sendDataString = [NSString stringWithFormat:@"%@%@", data, @"\r\n" ]; // append CRLF after the JSON string, it is
-    NSLog(@"DataToSend: %@", sendDataString);
+
+    NSString *sendDataString = [NSString stringWithFormat:@"%@%@", data, @"\r\n" ]; // append CRLF after the JSON string, it is
+    NSLog(@"sendDataToServer: %@", sendDataString);
     [[nsResolutionDelegate socket] writeData:[sendDataString dataUsingEncoding:NSUTF8StringEncoding]
                                  withTimeout:-1 tag:1];
     
@@ -186,19 +188,22 @@ You can make a call to this method to publish a bonjour service
     javaScript = [pluginResult toSuccessCallbackString:command.callbackId];
     [self writeJavascript:javaScript];
 }
-/*
-- (void) serverReceiveData:(CDVInvokedUrlCommand *)command
+
+- (void) sendDataToClient:(CDVInvokedUrlCommand *)command
 {
     CDVPluginResult* pluginResult = nil;
     NSString* javaScript = nil;
     NSString* data = [command.arguments objectAtIndex:0];
     
-    NSLog(@"NOT IMPLEMENTED: data=%@", data);
+    NSString *sendDataString = [NSString stringWithFormat:@"%@%@", data, @"\r\n" ]; // append CRLF after the JSON string, it is
+    NSLog(@"sendDataToClient: %@", sendDataString);
+    [serverSocket writeData:[sendDataString dataUsingEncoding:NSUTF8StringEncoding]
+                                 withTimeout:-1 tag:1];
     
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     javaScript = [pluginResult toSuccessCallbackString:command.callbackId];
     [self writeJavascript:javaScript];
 }
-*/
+
 
 @end

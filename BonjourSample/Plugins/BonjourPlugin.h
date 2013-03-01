@@ -24,7 +24,7 @@
 - (void) stopBrowser:(CDVInvokedUrlCommand*)command;
 
 - (void) sendDataToServer:(CDVInvokedUrlCommand*)command;
-/*
-- (void) serverReceivedData:(CDVInvokedUrlCommand*)command;
-*/
+
+- (void) sendDataToClient:(CDVInvokedUrlCommand*)command;
+
 @end
