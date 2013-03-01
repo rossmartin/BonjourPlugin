@@ -85,10 +85,17 @@
         //NSLog(@"jsonEscaped ===> %@", jsonEscaped);
         
         AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+/*JSS-
         NSString *jsCallBack = [[NSString alloc] initWithFormat:@"appendNetworkDevices('%@');", jsonEscaped]; // appendNetworkDevices in bonjour.js
         //NSLog(@"jsCallBack ===> %@", jsCallBack);
+
+
         [appDelegate.viewController.webView stringByEvaluatingJavaScriptFromString:jsCallBack];
-                
+*/
+        NSLog(@"JSS: Calling _didFindService");
+        NSString *jsCallBack = [[NSString alloc] initWithFormat:@"window.plugins.bonjour.didFindService('%@');", jsonEscaped];
+        [appDelegate.viewController.webView stringByEvaluatingJavaScriptFromString:jsCallBack];
+        
         [self updateUI];
     }
     //NSLog(@"didFindService method is done being called");

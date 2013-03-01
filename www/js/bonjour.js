@@ -4,8 +4,7 @@
 var deviceNameToSendData;
 
 $(function(){ // start of dom ready
-
-    $("#mainPage").on("click", "#publishService", function(){
+    $('#publishService').live('tap', function(e) {
         if (wirelessIsConnected()){ // checks to see if device has wifi connection
             changePage("#publishPage");
         } else {
@@ -13,7 +12,7 @@ $(function(){ // start of dom ready
         }
     });
 
-    $("#mainPage").on("click", "#startBrowser", function(){
+    $('#startBrowser').live('tap', function(e) {
         if (wirelessIsConnected()){ // checks to see if device has wifi connection
             changePage("#browserPage");
         } else {
@@ -44,8 +43,8 @@ $(function(){ // start of dom ready
     });
   
     // browserPage functions
-  
-    $("#browserPage").on("click", "#networkDevice", function(){
+
+    $('#networkDevice').live('tap', function(e) {
         deviceNameToSendData = $(this).text(); // global defined above, will be used again in showDialog w/o being passed as a parameter
         showLoader();
         console.log("network device was clicked and deviceName ====> " + deviceNameToSendData);
@@ -53,7 +52,7 @@ $(function(){ // start of dom ready
     });
 
   
-    $("#browserPage").on("click", "#resetBrowserPageButton", function(){
+    $('#resetBrowserPageButton').live('tap', function(e) {
         console.log("#resetBrowserPageButton was clicked, starting native call");
         // show original content now
         resetBrowserPage(); // resetBrowserPage function located below outside of dom ready
@@ -62,7 +61,7 @@ $(function(){ // start of dom ready
   
     // publishPage functions
   
-    $("#publishPage").on("click", "#resetPublishPageButton", function(){
+    $('#resetPublishPageButton').live('tap', function(e) {
         console.log("#resetPublishPageButton was clicked, starting native call");
         // show original content now
         resetPublishPage(); // resetPublishPage function located below outside of dom ready

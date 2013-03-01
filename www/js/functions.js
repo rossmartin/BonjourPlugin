@@ -24,6 +24,8 @@ function onDeviceReady() {
             'Device UUID: ' + device.uuid + '\n' +
             'Device Version: ' + device.version + '\n'
             );
+
+    setupBonjour();
 }
 
 function isIpad() {
