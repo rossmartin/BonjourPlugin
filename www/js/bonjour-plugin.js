@@ -14,6 +14,13 @@
         window.plugins.bonjour.didFindService(service);
     };
 
+    // Callback when a service is removed.
+    // Called from native
+    BonjourPlugin._didRemoveService = function(service)
+    {
+        window.plugins.bonjour.didRemoveService(service);
+    };
+
     /* The interface that you will use to access functionality */
 
     BonjourPlugin.prototype = {

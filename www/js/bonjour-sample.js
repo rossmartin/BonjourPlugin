@@ -9,9 +9,34 @@ function setupBonjour() {
         bonjour.didFindService = function(service) { 
             root.didFindService(service); 
         };
+        bonjour.didRemoveService = function(service) { 
+            root.didRemoveService(service); 
+        };
 //        bonjour.browse();
     }
     
+}
+
+function didRemoveService(serviceNameEscaped) {
+    console.log("didRemoveService function is firing");
+    console.log("jsonEscaped ====> " + serviceNameEscaped);
+    var serviceName = decodeURIComponent(serviceNameEscaped);
+    serviceName = serviceName.replace("&#39;","'");  // sometimes an html entity slips through, replace it with apostrophe
+    console.log("serviceName ===> " + serviceName);
+    
+    // iterate the listview to find the right device to remove from it on the browser page
+    var deviceCount = 0;
+    $("#deviceListview #networkDevice").each(function(){
+        if ( $(this).text() == serviceName ){
+            $(this).parent().parent().parent().remove(); // remove the device from the listview
+            $("#deviceListview").listview("refresh");
+        }
+        deviceCount++;
+    });
+    
+    if (deviceCount == 1){ // if we only had 1 device to remove, empty & hide the device listview
+        $("#deviceListview").empty().hide();
+    }
 }
 
 function didFindService(jsonEscaped) {

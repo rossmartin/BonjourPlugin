@@ -89,14 +89,6 @@ function stopServiceBrowserFail(){
     console.log("stopServiceBrowserFail");
 }
 
-function browseCB(){
-    console.log("browseCB success callback");
-}
-
-function browseFail(){
-    console.log("browseFail fail callback");
-}
-
 function selectServiceCB(){
     console.log("selectServiceCB success callback");
 }
@@ -137,47 +129,6 @@ function changeBrowserPage(){ // called from SocketClientDelegate.m when json st
        '</div>').insertAfter( $("#deviceSendContainer") );
     $("#browserPage").trigger("create");
 //    cordova.exec(stopServiceBrowserCB, stopServiceBrowserFail, 'BonjourPlugin', 'stopServiceBrowser', ['']);
-}
-/*
-function appendNetworkDevices(jsonEscaped){ // called from NetServiceBrowserDelegate.m when sending device finishes finding devices over Bonjour
-    console.log("appendNetworkDevices function is firing");
-    console.log("jsonEscaped ====> " + jsonEscaped);
-    var deviceJSON = decodeURIComponent(jsonEscaped);
-    //console.log("deviceJSON " + deviceJSON );
-    var deviceJSONArray = JSON.parse(deviceJSON);
-    //console.log("deviceJSONArray ===> " + deviceJSONArray);
-    $("#deviceListview").empty();
-    $("#deviceListview").append('<li data-role="list-divider">Choose a Device to Send JSON</li>')
-    for (var i = 0; i < deviceJSONArray.length; i++){
-        var devName = deviceJSONArray[i].replace("&#39;","'");  // sometimes an html entity slips through, replace it with apostrophe
-        console.log("deviceJSONArray[i] ===> " + devName);
-        $('#deviceListview').append('<li class="more"><a href="#" id="networkDevice">'+devName+'</a></li>');
-    }
-    $("#deviceListview").listview("refresh");
-    $("#browserPage").trigger("create");
-    $("#deviceListview").show("slow");
-}
-*/
-function removeNetworkDevice(serviceNameEscaped){ // called from NetServiceBrowserDelegate.m when a service is removed
-    console.log("removeNetworkDevice function is firing");
-    console.log("jsonEscaped ====> " + serviceNameEscaped);
-    var serviceName = decodeURIComponent(serviceNameEscaped);
-    serviceName = serviceName.replace("&#39;","'");  // sometimes an html entity slips through, replace it with apostrophe
-    console.log("serviceName ===> " + serviceName);
-    
-    // iterate the listview to find the right device to remove from it on the browser page
-    var deviceCount = 0;
-    $("#deviceListview #networkDevice").each(function(){
-        if ( $(this).text() == serviceName ){
-            $(this).parent().parent().parent().remove(); // remove the device from the listview
-            $("#deviceListview").listview("refresh");
-        }
-        deviceCount++;
-    });
-    
-    if (deviceCount == 1){ // if we only had 1 device to remove, empty & hide the device listview
-        $("#deviceListview").empty().hide();
-    }
 }
 
 // publishPage functions below that are outside of dom ready
