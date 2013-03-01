@@ -160,4 +160,32 @@ You can make a call to this method to publish a bonjour service
     [self writeJavascript:javaScript];
 }
 
+// this is called when a device wants to sendData
+- (void) sendClientData:(CDVInvokedUrlCommand *)command
+{
+    CDVPluginResult* pluginResult = nil;
+    NSString* javaScript = nil;
+    NSString* data = [command.arguments objectAtIndex:0];
+    
+    NSLog(@"NOT IMPLEMENTED: data=%@", data);
+    
+    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    javaScript = [pluginResult toSuccessCallbackString:command.callbackId];
+    [self writeJavascript:javaScript];
+}
+
+- (void) sendServerData:(CDVInvokedUrlCommand *)command
+{
+    CDVPluginResult* pluginResult = nil;
+    NSString* javaScript = nil;
+    NSString* data = [command.arguments objectAtIndex:0];
+    
+    NSLog(@"NOT IMPLEMENTED: data=%@", data);
+    
+    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    javaScript = [pluginResult toSuccessCallbackString:command.callbackId];
+    [self writeJavascript:javaScript];
+}
+
+
 @end

@@ -19,29 +19,29 @@ $(function(){ // start of dom ready
             showDialog(401); // show error for no wifi connectivity
         }
     });
-  
+
     // browserPage jQM events
 
     $("#browserPage").on("pagebeforeshow", function(){
         resetBrowserPage(); // resetBrowserPage function located below outside of dom ready
         window.plugins.bonjour.browse();
     });
-  
+
     $("#browserPage").on("pagehide", function(){
         window.plugins.bonjour.stopServiceBrowser();
     });
-  
+
     // publishPage jQM events
-  
+
     $("#publishPage").on("pagebeforeshow", function(){
         resetPublishPage(); // resetPublishPage function located below outside of dom ready
         window.plugins.bonjour.publishService();
     });
-  
+
     $("#publishPage").on("pagehide", function(){
         window.plugins.bonjour.stopService();
     });
-  
+
     // browserPage functions
 
     $('#networkDevice').live('tap', function(e) {
@@ -51,23 +51,23 @@ $(function(){ // start of dom ready
         window.plugins.bonjour.selectService(deviceNameToSendData);
     });
 
-  
+
     $('#resetBrowserPageButton').live('tap', function(e) {
         console.log("#resetBrowserPageButton was clicked, starting native call");
         // show original content now
         resetBrowserPage(); // resetBrowserPage function located below outside of dom ready
         window.plugins.bonjour.browse();
     });
-  
+
     // publishPage functions
-  
+
     $('#resetPublishPageButton').live('tap', function(e) {
         console.log("#resetPublishPageButton was clicked, starting native call");
         // show original content now
         resetPublishPage(); // resetPublishPage function located below outside of dom ready
         window.plugins.bonjour.publishService();
     });
-    
+
 }); // end of dom ready
 
 // browserPage functions below that are outside of dom ready
@@ -119,10 +119,10 @@ function changePublishPage(){ // called from SocketServerDelegate.m when the rec
        '<a data-role="button" id="resetPublishPageButton" data-theme="c">Start Service Again</a>' +
        '</div>').insertAfter( $("#receiveInstructionsContainer") );
     $("#publishPage").trigger("create");
-    
+
     //JSS - Probably comment this out to keep the service open.
-    //      Keep it consistent for now.
-    window.plugins.bonjour.stopService();
+//    window.plugins.bonjour.stopService();
+    window.plugins.bonjour.sendClientData('Custom data to send.');
 }
 
 function showDataReceived(jsonEscaped){ // called from SocketServerDelegate.m when receiving device gets json data

@@ -41,17 +41,21 @@
         },
         publishService: function() {
             cordovaRef.exec('BonjourPlugin.publishService');
-//            cordova.exec(publishServiceCB, publishServiceFail, "BonjourPlugin", "publishService", [""]); // publishes bonjour service
         },
         stopService: function() {
             cordovaRef.exec('BonjourPlugin.stopService');
-//            cordova.exec(stopServiceBrowserCB, stopServiceBrowserFail, "BonjourPlugin", "stopServiceBrowser", [""]); // stops bonjour service browser
         },
-        selectService: function(deviceNameToSendData) {
-            cordovaRef.exec('BonjourPlugin.selectService', deviceNameToSendData);
+        selectService: function(deviceName) {
+            cordovaRef.exec('BonjourPlugin.selectService', deviceName);
         },
-        stopServiceBrowser: function(deviceNameToSendData) {
+        stopServiceBrowser: function() {
             cordovaRef.exec('BonjourPlugin.stopServiceBrowser');
+        },
+        sendClientData: function(data) {
+            cordovaRef.exec('BonjourPlugin.sendClientData', data);
+        },
+        sendServerData: function(data) {
+            cordovaRef.exec('BonjourPlugin.sendServerData', data);
         }
     };
 
