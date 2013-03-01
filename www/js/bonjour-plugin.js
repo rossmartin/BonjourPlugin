@@ -33,6 +33,18 @@
         window.plugins.bonjour.clientSocketDidDisconnect(error);
     };
 
+    // Called from native
+    BonjourPlugin._didConnectToHost = function(address)
+    {
+        window.plugins.bonjour.didConnectToHost(address);
+    };
+
+    // Called from native
+    BonjourPlugin._clientSocketDidConnect = function(address)
+    {
+        window.plugins.bonjour.clientSocketDidConnect(address);
+    };
+
     /* The interface that you will use to access functionality */
 
     BonjourPlugin.prototype = {

@@ -18,6 +18,12 @@ function setupBonjour() {
         bonjour.clientSocketDidDisconnect = function(error) { 
             root.clientSocketDidDisconnect(error); 
         };
+        bonjour.didConnectToHost = function(address) { 
+            root.didConnectToHost(address); 
+        };
+        bonjour.clientSocketDidConnect = function(address) { 
+            root.clientSocketDidDisconnect(address); 
+        };
 //        bonjour.browse();
     }
     
@@ -29,6 +35,14 @@ function clientSocketDidDisconnect(error) {
 
 function serverSocketDidDisconnect(error) {
     console.log('Server socket disconnected: ' + error);
+}
+
+function clientSocketDidConnect(address) {
+    console.log('Client socket disconnected: ' + address);
+}
+
+function didConnectToHost(address) {
+    console.log('didConnectToHost: ' + address);
 }
 
 function didRemoveService(serviceNameEscaped) {

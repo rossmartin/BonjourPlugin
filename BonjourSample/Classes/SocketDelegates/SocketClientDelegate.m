@@ -25,7 +25,15 @@
     //NSString *someStr = @"test string \r\n"; // use CRLF for stream terminator
     //NSData *someData = [someStr dataUsingEncoding:NSUTF8StringEncoding];
     //[sender writeData:someData withTimeout:-1 tag:1];
-    
+
+    NSString* address = [NSString stringWithFormat:@"%@:%hu", host, port];
+    NSLog(@"JSS *** sending address: %@", address);
+
+    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+
+    NSString *jsCallBack = [[NSString alloc] initWithFormat:@"window.plugins.bonjour.didConnectToHost('%@');", address];
+    [appDelegate.viewController.webView stringByEvaluatingJavaScriptFromString:jsCallBack];
+
     // put a read in the queue, read all the way to CRLF
     [sender readDataToData:[GCDAsyncSocket CRLFData] withTimeout:-1 tag:TAG_READ_RECEIVER_DATA];
 }
