@@ -7,42 +7,40 @@
     function BonjourPlugin() {
     }
 
-    // Callback when a service is found.
-    // Called from native
+    // Native Calls
     BonjourPlugin._didFindService = function(service)
     {
         window.plugins.bonjour.didFindService(service);
     };
 
-    // Callback when a service is removed.
-    // Called from native
     BonjourPlugin._didRemoveService = function(service)
     {
         window.plugins.bonjour.didRemoveService(service);
     };
 
-    // Called from native
     BonjourPlugin._serverSocketDidDisconnect = function(error)
     {
         window.plugins.bonjour.serverSocketDidDisconnect(error);
     };
 
-    // Called from native
     BonjourPlugin._clientSocketDidDisconnect = function(error)
     {
         window.plugins.bonjour.clientSocketDidDisconnect(error);
     };
 
-    // Called from native
     BonjourPlugin._didConnectToHost = function(address)
     {
         window.plugins.bonjour.didConnectToHost(address);
     };
 
-    // Called from native
-    BonjourPlugin._clientSocketDidConnect = function(address)
+    BonjourPlugin._clientReceivedData = function(data)
     {
-        window.plugins.bonjour.clientSocketDidConnect(address);
+        window.plugins.bonjour.clientReceivedData(data);
+    };
+
+    BonjourPlugin._serverReceivedData = function(data)
+    {
+        window.plugins.bonjour.serverReceivedData(data);
     };
 
     /* The interface that you will use to access functionality */
@@ -63,12 +61,6 @@
         stopBrowser: function() {
             cordovaRef.exec('BonjourPlugin.stopBrowser');
         },
-        sendClientData: function(data) {
-            cordovaRef.exec('BonjourPlugin.sendClientData', data);
-        },
-        sendServerData: function(data) {
-            cordovaRef.exec('BonjourPlugin.sendServerData', data);
-        }
     };
 
     // Note: this plugin does NOT install itself, call this method some time after deviceready to install it

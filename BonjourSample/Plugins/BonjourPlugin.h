@@ -21,9 +21,9 @@
 - (void) unpublishService:(CDVInvokedUrlCommand*)command;
 
 - (void) stopBrowser:(CDVInvokedUrlCommand*)command;
+/*
+- (void) clientReceivedData:(CDVInvokedUrlCommand*)command;
 
-- (void) sendClientData:(CDVInvokedUrlCommand*)command;
-
-- (void) sendServerData:(CDVInvokedUrlCommand*)command;
-
+- (void) serverReceivedData:(CDVInvokedUrlCommand*)command;
+*/
 @end

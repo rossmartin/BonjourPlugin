@@ -128,7 +128,7 @@ function changePublishPage(){ // called from SocketServerDelegate.m when the rec
 
     //JSS - Probably comment this out to keep the service open.
 //    window.plugins.bonjour.stopService();
-    window.plugins.bonjour.sendClientData('Custom data to send.');
+//    window.plugins.bonjour.sendClientData('Custom data to send.');
 }
 
 function showDataReceived(jsonEscaped){ // called from SocketServerDelegate.m when receiving device gets json data

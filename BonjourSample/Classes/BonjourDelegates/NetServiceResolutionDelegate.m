@@ -65,6 +65,8 @@
         // If there was an error, it's likely something like "already connected" or "no delegate set"
         NSLog(@"I goofed: %@", err);
     }
+
+    NSLog(@"*********** CONNECTED ************");
 }
  
 // Sent if resolution fails

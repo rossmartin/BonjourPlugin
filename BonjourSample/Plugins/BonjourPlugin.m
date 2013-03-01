@@ -166,8 +166,9 @@ You can make a call to this method to publish a bonjour service
     [self writeJavascript:javaScript];
 }
 
+/*
 // this is called when a device wants to sendData
-- (void) sendClientData:(CDVInvokedUrlCommand *)command
+- (void) clientReceiveData:(CDVInvokedUrlCommand *)command
 {
     CDVPluginResult* pluginResult = nil;
     NSString* javaScript = nil;
@@ -180,7 +181,7 @@ You can make a call to this method to publish a bonjour service
     [self writeJavascript:javaScript];
 }
 
-- (void) sendServerData:(CDVInvokedUrlCommand *)command
+- (void) serverReceiveData:(CDVInvokedUrlCommand *)command
 {
     CDVPluginResult* pluginResult = nil;
     NSString* javaScript = nil;
@@ -192,6 +193,6 @@ You can make a call to this method to publish a bonjour service
     javaScript = [pluginResult toSuccessCallbackString:command.callbackId];
     [self writeJavascript:javaScript];
 }
-
+*/
 
 @end

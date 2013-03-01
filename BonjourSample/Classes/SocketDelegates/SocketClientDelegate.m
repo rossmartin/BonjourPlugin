@@ -27,10 +27,8 @@
     //[sender writeData:someData withTimeout:-1 tag:1];
 
     NSString* address = [NSString stringWithFormat:@"%@:%hu", host, port];
-    NSLog(@"JSS *** sending address: %@", address);
 
     AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-
     NSString *jsCallBack = [[NSString alloc] initWithFormat:@"window.plugins.bonjour.didConnectToHost('%@');", address];
     [appDelegate.viewController.webView stringByEvaluatingJavaScriptFromString:jsCallBack];
 
@@ -46,7 +44,15 @@
         NSLog(@"didReadData method tag (TAG_READ_RECEIVER_DATA) in SocketClientDelegate.m");
         NSString *dataString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         NSLog(@"data in SocketClientDelegate.m didReadData ===> %@", dataString); // resonse from server, asking for JSON
+
+        NSLog(@"*********** didReadData ************");
         
+        
+        AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+        NSString *theData = [dataString substringToIndex:[dataString length]-2]; //trim the \r\n
+        NSString *jsCallBack = [[NSString alloc] initWithFormat:@"window.plugins.bonjour.clientReceivedData('%@');", theData];
+        [appDelegate.viewController.webView stringByEvaluatingJavaScriptFromString:jsCallBack];
+
         // get nsdata - I'm leaving this below, this shows how you could get JSON from an existing file
         
         //NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);

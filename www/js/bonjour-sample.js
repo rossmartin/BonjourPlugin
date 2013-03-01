@@ -5,28 +5,42 @@ function setupBonjour() {
     bonjour = window.plugins.bonjour;
 
     if (bonjour !== null) {
-        console.log('Setting up callback: didFindService');
-        bonjour.didFindService = function(service) { 
-            root.didFindService(service); 
+        console.log('Setting up callbacks');
+        bonjour.didFindService = function(service) {
+            root.didFindService(service);
         };
-        bonjour.didRemoveService = function(service) { 
-            root.didRemoveService(service); 
+        bonjour.didRemoveService = function(service) {
+            root.didRemoveService(service);
         };
-        bonjour.serverSocketDidDisconnect = function(error) { 
-            root.serverSocketDidDisconnect(error); 
+        bonjour.serverSocketDidDisconnect = function(error) {
+            root.serverSocketDidDisconnect(error);
         };
-        bonjour.clientSocketDidDisconnect = function(error) { 
-            root.clientSocketDidDisconnect(error); 
+        bonjour.clientSocketDidDisconnect = function(error) {
+            root.clientSocketDidDisconnect(error);
         };
-        bonjour.didConnectToHost = function(address) { 
-            root.didConnectToHost(address); 
+        bonjour.didConnectToHost = function(address) {
+            root.didConnectToHost(address);
         };
-        bonjour.clientSocketDidConnect = function(address) { 
-            root.clientSocketDidDisconnect(address); 
+        bonjour.clientSocketDidConnect = function(address) {
+            root.clientSocketDidDisconnect(address);
+        };
+        bonjour.clientReceivedData = function(address) {
+            root.clientReceivedData(address);
+        };
+        bonjour.serverReceivedData = function(address) {
+            root.serverReceivedData(address);
         };
 //        bonjour.browse();
     }
-    
+
+}
+
+function clientReceivedData(data) {
+    console.log('*JSS* clientReceivedData: ' + data);
+}
+
+function serverReceivedData(data) {
+    console.log('serverReceivedData: ' + data);
 }
 
 function clientSocketDidDisconnect(error) {
@@ -51,7 +65,7 @@ function didRemoveService(serviceNameEscaped) {
     var serviceName = decodeURIComponent(serviceNameEscaped);
     serviceName = serviceName.replace("&#39;","'");  // sometimes an html entity slips through, replace it with apostrophe
     console.log("serviceName ===> " + serviceName);
-    
+
     // iterate the listview to find the right device to remove from it on the browser page
     var deviceCount = 0;
     $("#deviceListview #networkDevice").each(function(){
@@ -61,7 +75,7 @@ function didRemoveService(serviceNameEscaped) {
         }
         deviceCount++;
     });
-    
+
     if (deviceCount == 1){ // if we only had 1 device to remove, empty & hide the device listview
         $("#deviceListview").empty().hide();
     }
