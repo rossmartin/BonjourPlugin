@@ -24,12 +24,12 @@ NSNetServiceBrowser *serviceBrowser;
 @implementation BonjourPlugin
 
 /***
-sendData is called from the browser page pagebeforeshow event.
+browse is called from the browser page pagebeforeshow event.
 A service browser is created and begins searching, it's
 delegate methods are in NetServiceBrowserDelegate.m
 You can make a call to this method to start a bonjour browser
 ***/
-- (void) sendData:(CDVInvokedUrlCommand*)command
+- (void) browse:(CDVInvokedUrlCommand*)command
 {
     CDVPluginResult* pluginResult = nil;
     NSString* javaScript = nil;
@@ -46,12 +46,12 @@ You can make a call to this method to start a bonjour browser
 }
 
 /*** 
-receiveData is called from the publish page pagebeforeshow event.
+publishService is called from the publish page pagebeforeshow event.
 A service browser is created and begins searching, it's
 delegate methods are in NetServiceBrowserDelegate.m
 You can make a call to this method to publish a bonjour service
 ***/
-- (void) receiveData:(CDVInvokedUrlCommand*)command
+- (void) publishService:(CDVInvokedUrlCommand*)command
 {
     CDVPluginResult* pluginResult = nil;
     NSString* javaScript = nil;

@@ -27,6 +27,7 @@
         <title>Bonjour Sample</title>
         <script type="text/javascript" charset="utf-8" src="js/jquery-1.8.3.min.js"></script>
         <script type="text/javascript" src="cordova-2.2.0.js"></script>
+        <script type="text/javascript" src="js/bonjour-plugin.js"></script>
         <script type="text/javascript" src="js/functions.js"></script>
         <script type="text/javascript" src="js/bonjour.js"></script>
         <!-- load jQuery Mobile last -->
@@ -34,7 +35,7 @@
     </head>
     <body>
         <div data-role="page" id="mainPage" class="list-and-button">
-            <div data-role="header" class="header-class">
+            <div data-role="header" class="header-class" data-position="fixed" data-tap-toggle="false">
                 <div style="text-align:center;line-height:40px;">PhoneGap Bonjour Plugin</div>
             </div><!-- /header -->
             <div data-role="content" class="ui-section">
@@ -42,14 +43,18 @@
                     <li data-role="list-divider">Bonjour Functions</li>
                     <li class="main"><a href="#" id="publishService">Publish Bonjour Service</a></li>
                     <li class="main"><a href="#" id="startBrowser">Start Bonjour Browser</a></li>
+           <li data-role="list-divider">Your Device Info Below</li>
+           <li data-icon="false" class="main"><span class="underline" id="deviceName"></span></li>
+           <li data-icon="false" class="main"><span class="underline" id="devicePlatform"></span></li>
+           <li data-icon="false" class="main"><span class="underline" id="deviceVersion"></span></li>
+
                 </ul>
             </div><!-- /content -->
-            <div data-role="footer" class="footer">
-            </div><!-- /footer -->
+            <div data-role="footer" class="footer" data-position="fixed" data-tap-toggle="false">Bonjour, I'm a Fixed Footer :~o</div><!-- /footer -->
         </div><!-- /page -->
     
         <div data-role="page" id="browserPage" class="list-and-button">
-            <div data-role="header" class="header-class">
+            <div data-role="header" class="header-class" data-position="fixed" data-tap-toggle="false">
                 <div style="text-align:center;line-height:40px;">Bonjour Browser</div>
                 <a data-role="button" data-rel="back"  data-icon="arrow-l" data-inline="true" data-mini="true" data-theme="c" class="back-btn">Back</a>
             </div><!-- /header -->
@@ -67,12 +72,11 @@
                     <ul data-role="listview" id="deviceListview"></ul> <!-- this will be filled dynamically -->
                 </div>
             </div><!-- /content -->
-            <div data-role="footer" class="footer">
-            </div><!-- /footer -->
+            <div data-role="footer" class="footer" data-position="fixed" data-tap-toggle="false">Bonjour, I'm a Fixed Footer :~o</div><!-- /footer -->
         </div><!-- /page -->
 
         <div data-role="page" id="publishPage" class="list-and-button">
-            <div data-role="header" class="header-class">
+            <div data-role="header" class="header-class" data-position="fixed" data-tap-toggle="false">
                 <div id="publishPageHeader" style="text-align:center;line-height:40px;">Bonjour Service Running</div>
                 <a data-role="button" data-rel="back"  data-icon="arrow-l" data-inline="true" data-mini="true" data-theme="c" class="back-btn">Back</a>
             </div><!-- /header -->
@@ -87,8 +91,7 @@
                     </div>
                 </div>
             </div><!-- /content -->
-            <div data-role="footer" class="footer">
-            </div><!-- /footer -->
+            <div data-role="footer" class="footer" data-position="fixed" data-tap-toggle="false">Bonjour, I'm a Fixed Footer :~o</div><!-- /footer -->
         </div><!-- /page -->
     </body>
 </html>

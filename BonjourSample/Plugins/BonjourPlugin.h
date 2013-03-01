@@ -12,9 +12,9 @@
 
 @interface BonjourPlugin : CDVPlugin
 
-- (void) sendData:(CDVInvokedUrlCommand*)command;
+- (void) browse:(CDVInvokedUrlCommand*)command;
 
-- (void) receiveData:(CDVInvokedUrlCommand*)command;
+- (void) publishService:(CDVInvokedUrlCommand*)command;
 
 - (void) selectService:(CDVInvokedUrlCommand*)command;
 

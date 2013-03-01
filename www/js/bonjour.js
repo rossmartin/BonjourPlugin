@@ -25,7 +25,7 @@ $(function(){ // start of dom ready
 
     $("#browserPage").on("pagebeforeshow", function(){
         resetBrowserPage(); // resetBrowserPage function located below outside of dom ready
-        cordova.exec(sendDataCB, sendDataFail, "BonjourPlugin", "sendData", [""]); // starts bonjour service browser
+        cordova.exec(browseCB, browseFail, "BonjourPlugin", "browse", [""]); // starts bonjour service browser
     });
   
     $("#browserPage").on("pagehide", function(){
@@ -36,7 +36,7 @@ $(function(){ // start of dom ready
   
     $("#publishPage").on("pagebeforeshow", function(){
         resetPublishPage(); // resetPublishPage function located below outside of dom ready
-        cordova.exec(receiveDataCB, receiveDataFail, "BonjourPlugin", "receiveData", [""]); // publishes bonjour service
+        cordova.exec(publishServiceCB, publishServiceFail, "BonjourPlugin", "publishService", [""]); // publishes bonjour service
     });
   
     $("#publishPage").on("pagehide", function(){
@@ -57,7 +57,7 @@ $(function(){ // start of dom ready
         console.log("#resetBrowserPageButton was clicked, starting native call");
         // show original content now
         resetBrowserPage(); // resetBrowserPage function located below outside of dom ready
-        cordova.exec(sendDataCB, sendDataFail, "BonjourPlugin", "sendData", [""]);
+        cordova.exec(browseCB, browseFail, "BonjourPlugin", "browse", [""]);
     });
   
     // publishPage functions
@@ -66,7 +66,7 @@ $(function(){ // start of dom ready
         console.log("#resetPublishPageButton was clicked, starting native call");
         // show original content now
         resetPublishPage(); // resetPublishPage function located below outside of dom ready
-        cordova.exec(receiveDataCB, receiveDataFail, "BonjourPlugin", "receiveData", [""]);
+        cordova.exec(publishServiceCB, publishServiceFail, "BonjourPlugin", "publishService", [""]);
     });
     
 }); // end of dom ready
@@ -89,12 +89,12 @@ function stopServiceBrowserFail(){
     console.log("stopServiceBrowserFail");
 }
 
-function receiveDataCB(){
-    console.log("receiveDataCB success callback");
+function browseCB(){
+    console.log("browseCB success callback");
 }
 
-function receiveDataFail(){
-    console.log("receiveDataFail fail callback");
+function browseFail(){
+    console.log("browseFail fail callback");
 }
 
 function selectServiceCB(){
@@ -105,12 +105,12 @@ function selectServiceFail(){
     console.log("selectServiceFail fail callback");
 }
 
-function sendDataCB(){
-    console.log("sendDataCB success callback");
+function publishServiceCB(){
+    console.log("publishServiceCB success callback");
 }
 
-function sendDataFail(){
-    console.log("sendDataFail fail callback");
+function publishServiceFail(){
+    console.log("publishServiceFail fail callback");
 }
 
 // browserPage functions below that are outside of dom ready
@@ -136,7 +136,7 @@ function changeBrowserPage(){ // called from SocketClientDelegate.m when json st
        '<a data-role="button" id="resetBrowserPageButton" data-theme="c">Show Browser Again</a>' +
        '</div>').insertAfter( $("#deviceSendContainer") );
     $("#browserPage").trigger("create");
-    cordova.exec(stopServiceBrowserCB, stopServiceBrowserFail, 'BonjourPlugin', 'stopServiceBrowser', ['']);
+//    cordova.exec(stopServiceBrowserCB, stopServiceBrowserFail, 'BonjourPlugin', 'stopServiceBrowser', ['']);
 }
 
 function appendNetworkDevices(jsonEscaped){ // called from NetServiceBrowserDelegate.m when sending device finishes finding devices over Bonjour
@@ -203,7 +203,7 @@ function changePublishPage(){ // called from SocketServerDelegate.m when the rec
        '<a data-role="button" id="resetPublishPageButton" data-theme="c">Start Service Again</a>' +
        '</div>').insertAfter( $("#receiveInstructionsContainer") );
     $("#publishPage").trigger("create");
-    cordova.exec(disconnectServiceCB, disconnectServiceFail, "BonjourPlugin", "stopService", [""]); // make native call to stop published service
+//    cordova.exec(disconnectServiceCB, disconnectServiceFail, "BonjourPlugin", "stopService", [""]); // make native call to stop published service
 }
 
 function showDataReceived(jsonEscaped){ // called from SocketServerDelegate.m when receiving device gets json data
