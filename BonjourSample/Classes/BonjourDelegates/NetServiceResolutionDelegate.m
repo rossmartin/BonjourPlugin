@@ -30,7 +30,11 @@
     [services release];
     [super dealloc];
 }
- 
+
+- (GCDAsyncSocket *)socket {
+    return socket;
+}
+
 // Sent when addresses are resolved
 - (void)netServiceDidResolveAddress:(NSNetService *)netService
 {
@@ -56,7 +60,7 @@
     SocketClientDelegate *clientDelegate; // all the client socket delegate methods will be in SocketClientDelegate.m
     clientDelegate = [[SocketClientDelegate alloc] init];
     
-    GCDAsyncSocket *socket;
+//    GCDAsyncSocket *socket;
     socket = [[GCDAsyncSocket alloc] initWithDelegate:clientDelegate delegateQueue:dispatch_get_main_queue()];
     NSError *err = nil;
     //if (![socket connectToHost:ipString onPort:port error:&err]) // Asynchronous!

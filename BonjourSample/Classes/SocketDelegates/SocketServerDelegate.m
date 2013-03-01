@@ -52,7 +52,7 @@
         [sender readDataToData:[GCDAsyncSocket CRLFData] withTimeout:-1 tag:1]; // read all the way to CRLF terminator
         
         NSString *dataString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        NSLog(@"didReadData in SocketServerDelegate.m, JSON data coming from client (device sending) is ===> %@", dataString);
+        NSLog(@"*** didReadData in SocketServerDelegate.m, JSON data coming from client (device sending) is ===> %@", dataString);
         
         NSString *jsonEscaped = [dataString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         

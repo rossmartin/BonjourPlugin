@@ -20,6 +20,7 @@
 
 NSNetService *service;
 NSNetServiceBrowser *serviceBrowser;
+NetServiceResolutionDelegate *nsResolutionDelegate;
 
 @implementation BonjourPlugin
 
@@ -129,8 +130,10 @@ You can make a call to this method to publish a bonjour service
         }
     }
     
-    NetServiceResolutionDelegate *nsResolutionDelegate;
-    nsResolutionDelegate = [[NetServiceResolutionDelegate alloc] init];
+    if (!nsResolutionDelegate) {
+//    NetServiceResolutionDelegate *nsResolutionDelegate;
+        nsResolutionDelegate = [[NetServiceResolutionDelegate alloc] init];
+    }
     [[servicesArray objectAtIndex:matchedNameIndex] setDelegate:nsResolutionDelegate]; // use matchedNameIndex for right service selected
     [[servicesArray objectAtIndex:matchedNameIndex] resolveWithTimeout:5.0]; // use matchedNameIndex for right service selected
     
@@ -166,21 +169,24 @@ You can make a call to this method to publish a bonjour service
     [self writeJavascript:javaScript];
 }
 
-/*
 // this is called when a device wants to sendData
-- (void) clientReceiveData:(CDVInvokedUrlCommand *)command
+- (void) sendDataToServer:(CDVInvokedUrlCommand *)command
 {
     CDVPluginResult* pluginResult = nil;
     NSString* javaScript = nil;
     NSString* data = [command.arguments objectAtIndex:0];
     
     NSLog(@"NOT IMPLEMENTED: data=%@", data);
+     NSString *sendDataString = [NSString stringWithFormat:@"%@%@", data, @"\r\n" ]; // append CRLF after the JSON string, it is
+    NSLog(@"DataToSend: %@", sendDataString);
+    [[nsResolutionDelegate socket] writeData:[sendDataString dataUsingEncoding:NSUTF8StringEncoding]
+                                 withTimeout:-1 tag:1];
     
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     javaScript = [pluginResult toSuccessCallbackString:command.callbackId];
     [self writeJavascript:javaScript];
 }
-
+/*
 - (void) serverReceiveData:(CDVInvokedUrlCommand *)command
 {
     CDVPluginResult* pluginResult = nil;

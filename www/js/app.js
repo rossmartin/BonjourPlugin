@@ -233,7 +233,8 @@ function showDialog(code, messageVar) { // v1.1.4 RDM adding extra parameter mes
 
     }
 
-    navigator.notification.confirm(message, defaultAlertCallback, title, buttonName);
+//    navigator.notification.confirm(message, defaultAlertCallback, title, buttonName);
+    console.log("ALERT: " + message + ", " + defaultAlertCallback + ", " + title + ", " + messageVar);
 }
 
 function defaultAlertCallback() {

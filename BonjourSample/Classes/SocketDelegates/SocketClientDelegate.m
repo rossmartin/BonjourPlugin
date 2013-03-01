@@ -36,6 +36,14 @@
     [sender readDataToData:[GCDAsyncSocket CRLFData] withTimeout:-1 tag:TAG_READ_RECEIVER_DATA];
 }
 
+
+// GCDAsyncSocket delegate, this writeData is for data coming from server (device receiving JSON)
+- (void)socket:(GCDAsyncSocket *)sender writeData:(NSData *)data withTag:(long)tag
+{
+    NSString *sendDataString = [NSString stringWithFormat:@"%@%@", data, @"\r\n" ]; // append CRLF after the JSON string, it is the stream terminator
+    [sender writeData:[sendDataString dataUsingEncoding:NSUTF8StringEncoding] withTimeout:-1 tag:TAG_SEND_JSON_DATA];
+}
+
 // GCDAsyncSocket delegate, this didReadData is for data coming from server (device receiving JSON)
 - (void)socket:(GCDAsyncSocket *)sender didReadData:(NSData *)data withTag:(long)tag
 {
@@ -63,7 +71,7 @@
         //if (!fileData){
         //    NSLog(@"Error - File not found");
         //}
-        
+/*JSS-
         NSMutableArray *jsonArray;
         jsonArray = [NSMutableArray arrayWithObjects: @"The", @"best", @"things", @"in", @"life", @"are", @"free", @" ;'~) ", nil];
         // the JSON data can have an apostrophe in it, like the last index in the array above
@@ -74,6 +82,7 @@
         NSString *sendDataString = [NSString stringWithFormat:@"%@%@", jsonString, @"\r\n" ]; // append CRLF after the JSON string, it is the stream terminator
         
         [sender writeData:[sendDataString dataUsingEncoding:NSUTF8StringEncoding] withTimeout:-1 tag:TAG_SEND_JSON_DATA];
+-JSS*/
     }
 }
 

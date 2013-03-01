@@ -7,7 +7,7 @@
     function BonjourPlugin() {
     }
 
-    // Native Calls
+    // Native Callbacks
     BonjourPlugin._didFindService = function(service)
     {
         window.plugins.bonjour.didFindService(service);
@@ -60,6 +60,9 @@
         },
         stopBrowser: function() {
             cordovaRef.exec('BonjourPlugin.stopBrowser');
+        },
+        sendDataToServer: function(data) {
+            cordovaRef.exec('BonjourPlugin.sendDataToServer', data);
         },
     };
 

@@ -10,6 +10,7 @@
 
 #import <Cordova/CDV.h>
 
+
 @interface BonjourPlugin : CDVPlugin
 
 - (void) startBrowser:(CDVInvokedUrlCommand*)command;
@@ -21,9 +22,9 @@
 - (void) unpublishService:(CDVInvokedUrlCommand*)command;
 
 - (void) stopBrowser:(CDVInvokedUrlCommand*)command;
-/*
-- (void) clientReceivedData:(CDVInvokedUrlCommand*)command;
 
+- (void) sendDataToServer:(CDVInvokedUrlCommand*)command;
+/*
 - (void) serverReceivedData:(CDVInvokedUrlCommand*)command;
 */
 @end

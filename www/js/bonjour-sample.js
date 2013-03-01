@@ -36,31 +36,33 @@ function setupBonjour() {
 }
 
 function clientReceivedData(data) {
-    console.log('*JSS* clientReceivedData: ' + data);
+    console.log('BonjourSample.clientReceivedData: ' + data);
+    window.plugins.bonjour.sendDataToServer('My Sample Data is here');
+    window.plugins.bonjour.sendDataToServer(data);
 }
 
 function serverReceivedData(data) {
-    console.log('serverReceivedData: ' + data);
+    console.log('BonjourSample.serverReceivedData: ' + data);
 }
 
 function clientSocketDidDisconnect(error) {
-    console.log('Client socket disconnected: ' + error);
+    console.log('BonjourSample.Client socket disconnected: ' + error);
 }
 
 function serverSocketDidDisconnect(error) {
-    console.log('Server socket disconnected: ' + error);
+    console.log('BonjourSample.Server socket disconnected: ' + error);
 }
 
 function clientSocketDidConnect(address) {
-    console.log('Client socket disconnected: ' + address);
+    console.log('BonjourSample.Client socket disconnected: ' + address);
 }
 
 function didConnectToHost(address) {
-    console.log('didConnectToHost: ' + address);
+    console.log('BonjourSample.didConnectToHost: ' + address);
 }
 
 function didRemoveService(serviceNameEscaped) {
-    console.log("didRemoveService function is firing");
+    console.log("BonjourSample.didRemoveService function is firing");
     console.log("jsonEscaped ====> " + serviceNameEscaped);
     var serviceName = decodeURIComponent(serviceNameEscaped);
     serviceName = serviceName.replace("&#39;","'");  // sometimes an html entity slips through, replace it with apostrophe
@@ -82,7 +84,7 @@ function didRemoveService(serviceNameEscaped) {
 }
 
 function didFindService(jsonEscaped) {
-    console.log("didFindService function is firing");
+    console.log("BonjourSample.didFindService function is firing");
     console.log("jsonEscaped ====> " + jsonEscaped);
     var deviceJSON = decodeURIComponent(jsonEscaped);
     //console.log("deviceJSON " + deviceJSON );
