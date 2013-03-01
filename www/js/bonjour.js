@@ -35,11 +35,13 @@ $(function(){ // start of dom ready
   
     $("#publishPage").on("pagebeforeshow", function(){
         resetPublishPage(); // resetPublishPage function located below outside of dom ready
-        cordova.exec(publishServiceCB, publishServiceFail, "BonjourPlugin", "publishService", [""]); // publishes bonjour service
+        window.plugins.bonjour.publishService();
+//        cordova.exec(publishServiceCB, publishServiceFail, "BonjourPlugin", "publishService", [""]); // publishes bonjour service
     });
   
     $("#publishPage").on("pagehide", function(){
-        cordova.exec(disconnectServiceCB, disconnectServiceFail, "BonjourPlugin", "stopService", [""]); // stops bonjour service
+        window.plugins.bonjour.stopService();
+//        cordova.exec(disconnectServiceCB, disconnectServiceFail, "BonjourPlugin", "stopService", [""]); // stops bonjour service
     });
   
     // browserPage functions
@@ -65,7 +67,8 @@ $(function(){ // start of dom ready
         console.log("#resetPublishPageButton was clicked, starting native call");
         // show original content now
         resetPublishPage(); // resetPublishPage function located below outside of dom ready
-        cordova.exec(publishServiceCB, publishServiceFail, "BonjourPlugin", "publishService", [""]);
+        window.plugins.bonjour.publishService();
+//        cordova.exec(publishServiceCB, publishServiceFail, "BonjourPlugin", "publishService", [""]);
     });
     
 }); // end of dom ready
@@ -137,6 +140,10 @@ function changePublishPage(){ // called from SocketServerDelegate.m when the rec
        '<a data-role="button" id="resetPublishPageButton" data-theme="c">Start Service Again</a>' +
        '</div>').insertAfter( $("#receiveInstructionsContainer") );
     $("#publishPage").trigger("create");
+    
+    //JSS - Probably comment this out to keep the service open.
+    //      Keep it consistent for now.
+    window.plugins.bonjour.stopService();
 //    cordova.exec(disconnectServiceCB, disconnectServiceFail, "BonjourPlugin", "stopService", [""]); // make native call to stop published service
 }
 

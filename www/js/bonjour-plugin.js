@@ -28,10 +28,12 @@
             cordovaRef.exec('BonjourPlugin.browse');
         },
         publishService: function() {
-            cordova.exec(publishServiceCB, publishServiceFail, "BonjourPlugin", "publishService", [""]); // publishes bonjour service
+            cordovaRef.exec('BonjourPlugin.publishService');
+//            cordova.exec(publishServiceCB, publishServiceFail, "BonjourPlugin", "publishService", [""]); // publishes bonjour service
         },
         stopService: function() {
-            cordova.exec(stopServiceBrowserCB, stopServiceBrowserFail, "BonjourPlugin", "stopServiceBrowser", [""]); // stops bonjour service browser
+            cordovaRef.exec('BonjourPlugin.stopService');
+//            cordova.exec(stopServiceBrowserCB, stopServiceBrowserFail, "BonjourPlugin", "stopServiceBrowser", [""]); // stops bonjour service browser
         },
         selectService: function(deviceNameToSendData) {
             cordovaRef.exec('BonjourPlugin.selectService', deviceNameToSendData);
