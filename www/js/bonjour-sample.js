@@ -7,16 +7,28 @@ function setupBonjour() {
     if (bonjour !== null) {
         console.log('Setting up callback: didFindService');
         bonjour.didFindService = function(service) { 
-//            console.log('bonjour.didFindService');
-//            console.log(service);
             root.didFindService(service); 
         };
-//        console.log('Calling browse.');
-        bonjour.browse();
+//        bonjour.browse();
     }
     
 }
 
-function didFindService() {
-    console.log("Sample.didFindService-> function");
+function didFindService(jsonEscaped) {
+    console.log("didFindService function is firing");
+    console.log("jsonEscaped ====> " + jsonEscaped);
+    var deviceJSON = decodeURIComponent(jsonEscaped);
+    //console.log("deviceJSON " + deviceJSON );
+    var deviceJSONArray = JSON.parse(deviceJSON);
+    //console.log("deviceJSONArray ===> " + deviceJSONArray);
+    $("#deviceListview").empty();
+    $("#deviceListview").append('<li data-role="list-divider">Choose a Device to Send JSON</li>')
+    for (var i = 0; i < deviceJSONArray.length; i++){
+        var devName = deviceJSONArray[i].replace("&#39;","'");  // sometimes an html entity slips through, replace it with apostrophe
+        console.log("deviceJSONArray[i] ===> " + devName);
+        $('#deviceListview').append('<li class="more"><a href="#" id="networkDevice">'+devName+'</a></li>');
+    }
+    $("#deviceListview").listview("refresh");
+    $("#browserPage").trigger("create");
+    $("#deviceListview").show("slow");
 }

@@ -20,7 +20,8 @@
 
     BonjourPlugin.prototype = {
         browse: function() {
-            cordova.exec(browseCB, browseFail, "BonjourPlugin", "browse", [""]); // starts bonjour service browser
+            cordovaRef.exec('BonjourPlugin.browse');
+//            cordova.exec(browseCB, browseFail, "BonjourPlugin", "browse", [""]); // starts bonjour service browser
         },
         publishService: function() {
             cordova.exec(publishServiceCB, publishServiceFail, "BonjourPlugin", "publishService", [""]); // publishes bonjour service

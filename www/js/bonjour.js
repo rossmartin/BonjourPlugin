@@ -24,7 +24,8 @@ $(function(){ // start of dom ready
 
     $("#browserPage").on("pagebeforeshow", function(){
         resetBrowserPage(); // resetBrowserPage function located below outside of dom ready
-        cordova.exec(browseCB, browseFail, "BonjourPlugin", "browse", [""]); // starts bonjour service browser
+        window.plugins.bonjour.browse();
+//        cordova.exec(browseCB, browseFail, "BonjourPlugin", "browse", [""]); // starts bonjour service browser
     });
   
     $("#browserPage").on("pagehide", function(){
@@ -137,7 +138,7 @@ function changeBrowserPage(){ // called from SocketClientDelegate.m when json st
     $("#browserPage").trigger("create");
 //    cordova.exec(stopServiceBrowserCB, stopServiceBrowserFail, 'BonjourPlugin', 'stopServiceBrowser', ['']);
 }
-
+/*
 function appendNetworkDevices(jsonEscaped){ // called from NetServiceBrowserDelegate.m when sending device finishes finding devices over Bonjour
     console.log("appendNetworkDevices function is firing");
     console.log("jsonEscaped ====> " + jsonEscaped);
@@ -156,7 +157,7 @@ function appendNetworkDevices(jsonEscaped){ // called from NetServiceBrowserDele
     $("#browserPage").trigger("create");
     $("#deviceListview").show("slow");
 }
-
+*/
 function removeNetworkDevice(serviceNameEscaped){ // called from NetServiceBrowserDelegate.m when a service is removed
     console.log("removeNetworkDevice function is firing");
     console.log("jsonEscaped ====> " + serviceNameEscaped);
