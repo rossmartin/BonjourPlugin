@@ -38,7 +38,6 @@
         },
         stopServiceBrowser: function(deviceNameToSendData) {
             cordovaRef.exec('BonjourPlugin.stopServiceBrowser');
-//            cordova.exec(stopServiceBrowserCB, stopServiceBrowserFail, "BonjourPlugin", "stopServiceBrowser", [""]); // stops bonjour service browser
         }
     };
 
