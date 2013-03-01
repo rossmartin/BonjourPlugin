@@ -36,12 +36,10 @@ $(function(){ // start of dom ready
     $("#publishPage").on("pagebeforeshow", function(){
         resetPublishPage(); // resetPublishPage function located below outside of dom ready
         window.plugins.bonjour.publishService();
-//        cordova.exec(publishServiceCB, publishServiceFail, "BonjourPlugin", "publishService", [""]); // publishes bonjour service
     });
   
     $("#publishPage").on("pagehide", function(){
         window.plugins.bonjour.stopService();
-//        cordova.exec(disconnectServiceCB, disconnectServiceFail, "BonjourPlugin", "stopService", [""]); // stops bonjour service
     });
   
     // browserPage functions
@@ -68,28 +66,9 @@ $(function(){ // start of dom ready
         // show original content now
         resetPublishPage(); // resetPublishPage function located below outside of dom ready
         window.plugins.bonjour.publishService();
-//        cordova.exec(publishServiceCB, publishServiceFail, "BonjourPlugin", "publishService", [""]);
     });
     
 }); // end of dom ready
-
-// callbacks here from native calls up above
-
-function disconnectServiceCB(){
-    console.log("disconnectServiceCB success callback");
-}
-
-function disconnectServiceFail(){
-    console.log("disconnectServiceFail fail callback");        
-}
-
-function publishServiceCB(){
-    console.log("publishServiceCB success callback");
-}
-
-function publishServiceFail(){
-    console.log("publishServiceFail fail callback");
-}
 
 // browserPage functions below that are outside of dom ready
 
@@ -144,7 +123,6 @@ function changePublishPage(){ // called from SocketServerDelegate.m when the rec
     //JSS - Probably comment this out to keep the service open.
     //      Keep it consistent for now.
     window.plugins.bonjour.stopService();
-//    cordova.exec(disconnectServiceCB, disconnectServiceFail, "BonjourPlugin", "stopService", [""]); // make native call to stop published service
 }
 
 function showDataReceived(jsonEscaped){ // called from SocketServerDelegate.m when receiving device gets json data
