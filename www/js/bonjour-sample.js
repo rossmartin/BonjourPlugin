@@ -12,9 +12,23 @@ function setupBonjour() {
         bonjour.didRemoveService = function(service) { 
             root.didRemoveService(service); 
         };
+        bonjour.serverSocketDidDisconnect = function(error) { 
+            root.serverSocketDidDisconnect(error); 
+        };
+        bonjour.clientSocketDidDisconnect = function(error) { 
+            root.clientSocketDidDisconnect(error); 
+        };
 //        bonjour.browse();
     }
     
+}
+
+function clientSocketDidDisconnect(error) {
+    console.log('Client socket disconnected: ' + error);
+}
+
+function serverSocketDidDisconnect(error) {
+    console.log('Server socket disconnected: ' + error);
 }
 
 function didRemoveService(serviceNameEscaped) {

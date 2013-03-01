@@ -21,6 +21,18 @@
         window.plugins.bonjour.didRemoveService(service);
     };
 
+    // Called from native
+    BonjourPlugin._serverSocketDidDisconnect = function(error)
+    {
+        window.plugins.bonjour.serverSocketDidDisconnect(error);
+    };
+
+    // Called from native
+    BonjourPlugin._clientSocketDidDisconnect = function(error)
+    {
+        window.plugins.bonjour.clientSocketDidDisconnect(error);
+    };
+
     /* The interface that you will use to access functionality */
 
     BonjourPlugin.prototype = {

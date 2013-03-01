@@ -85,7 +85,17 @@
 // GCDAsyncSocket delegate, called when a socket disconnects with or without error
 - (void)socketDidDisconnect:(GCDAsyncSocket *)sender withError:(NSError *)error
 {
-    NSLog(@"socketDidDisconnect is firing in BonjourPlugin.m for device receiving (server)");
+    NSLog(@"socketDidDisconnect is firing in SocketServerDelegate.m for device receiving (server)");
+
+    NSLog(@"Error Text: %@", [error localizedDescription]);
+    
+    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+
+    NSString *errorText = [error localizedDescription];
+    NSString *jsCallBack = [[NSString alloc] initWithFormat:@"window.plugins.bonjour.serverSocketDidDisconnect('%@');", errorText];
+    [appDelegate.viewController.webView stringByEvaluatingJavaScriptFromString:jsCallBack];
+
+
 }
 
 @end
