@@ -36,11 +36,11 @@
     /* The interface that you will use to access functionality */
 
     BonjourPlugin.prototype = {
-        browse: function() {
-            cordovaRef.exec('BonjourPlugin.browse');
+        browse: function(serviceType) {
+            cordovaRef.exec('BonjourPlugin.browse', serviceType);
         },
-        publishService: function() {
-            cordovaRef.exec('BonjourPlugin.publishService');
+        publishService: function(serviceType) {
+            cordovaRef.exec('BonjourPlugin.publishService', serviceType);
         },
         stopService: function() {
             cordovaRef.exec('BonjourPlugin.stopService');

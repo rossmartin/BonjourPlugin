@@ -1,5 +1,5 @@
 // functions for PhoneGap & jQuery Mobile
-var deviceNameToSendData;
+var deviceName;
 
 //set jQuery Mobile Defaults
 $(document).on('mobileinit', function() {
@@ -29,7 +29,7 @@ $(document).on('mobileinit', function() {
     $("#browserPage").live("pagebeforeshow", function(){
         console.log('about to browse');
         resetBrowserPage(); // resetBrowserPage function located below outside of dom ready
-        window.plugins.bonjour.browse();
+        window.plugins.bonjour.browse('SampleServiceName');
     });
 
     $("#browserPage").live("pagehide", function(){
@@ -40,7 +40,7 @@ $(document).on('mobileinit', function() {
 
     $("#publishPage").live("pagebeforeshow", function(){
         resetPublishPage(); // resetPublishPage function located below outside of dom ready
-        window.plugins.bonjour.publishService();
+        window.plugins.bonjour.publishService('SampleServiceName');
     });
 
     $("#publishPage").live("pagehide", function(){
@@ -50,10 +50,10 @@ $(document).on('mobileinit', function() {
     // browserPage functions
 
     $('#networkDevice').live('tap', function(e) {
-        deviceNameToSendData = $(this).text(); // global defined above, will be used again in showDialog w/o being passed as a parameter
+        deviceName = $(this).text(); // global defined above, will be used again in showDialog w/o being passed as a parameter
         showLoader();
-        console.log("network device was clicked and deviceName ====> " + deviceNameToSendData);
-        window.plugins.bonjour.selectService(deviceNameToSendData);
+        console.log("network device was clicked and deviceName ====> " + deviceName);
+        window.plugins.bonjour.selectService(deviceName);
     });
 
 
@@ -61,7 +61,7 @@ $(document).on('mobileinit', function() {
         console.log("#resetBrowserPageButton was clicked, starting native call");
         // show original content now
         resetBrowserPage(); // resetBrowserPage function located below outside of dom ready
-        window.plugins.bonjour.browse();
+        window.plugins.bonjour.browse('SampleServiceName');
     });
 
     // publishPage functions
@@ -70,7 +70,7 @@ $(document).on('mobileinit', function() {
         console.log("#resetPublishPageButton was clicked, starting native call");
         // show original content now
         resetPublishPage(); // resetPublishPage function located below outside of dom ready
-        window.plugins.bonjour.publishService();
+        window.plugins.bonjour.publishService('SampleServiceName');
     });
 
     console.log('mobileinit.end');
@@ -94,7 +94,7 @@ function changeBrowserPage(){ // called from SocketClientDelegate.m when json st
     $("#doneSendingDataIcon, #resetSendContainer").remove(); // remove done icon & resetSendContainer if it is there
     $('<img id="doneSendingDataIcon" src="img/green-check.png" style="width:32px; height:32px; vertical-align:middle;" />').insertBefore( $("#lookForReceive") );
     $("#lookForReceive").html("Data Successfully Sent");
-    $("#sendInstructionsContainer").html('The JSON data was sent to ' + deviceNameToSendData);
+    $("#sendInstructionsContainer").html('The JSON data was sent to ' + deviceName);
     $('<div id="resetSendContainer" style="padding-top:10px;">' +
        '<a data-role="button" id="resetBrowserPageButton" data-theme="c">Show Browser Again</a>' +
        '</div>').insertAfter( $("#deviceSendContainer") );
@@ -148,11 +148,10 @@ $(function() {
 function onDeviceReady() {
     $("div[data-role='page']").css("padding-top", "50px"); // needed after disabling tap toggle
 
-    $("#deviceName").html('<u>Your Device Name</u><br>' + device.name);
-    $("#devicePlatform").html('<u>Your Device Platform</u><br>' + device.platform);
-    $("#deviceVersion").html('<u>Your Device Version</u><br>' + device.version);
+    $("#deviceName").html('<u>Your Device Name</u>:  ' + device.name);
+    $("#devicePlatform").html('<u>Your Device Platform</u>:  ' + device.platform);
+    $("#deviceVersion").html('<u>Your Device Version</u>:  ' + device.version);
 
-//    $("div[data-role='content'] ul[data-role='listview'] li").css("line-height", "30px");
     console.log(
             'Device Name: ' + device.name + '\n' +
             'Device Cordova: ' + device.cordova + '\n' +
@@ -213,7 +212,7 @@ function showDialog(code, messageVar) { // v1.1.4 RDM adding extra parameter mes
         //success
         case 101:
             title = "Data Successfully Sent"
-            message = "The JSON data was successfully sent to " + deviceNameToSendData + ".";
+            message = "The JSON data was successfully sent to " + deviceName + ".";
             break;
 
         case 102:

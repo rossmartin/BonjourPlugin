@@ -33,12 +33,15 @@ You can make a call to this method to start a bonjour browser
 {
     CDVPluginResult* pluginResult = nil;
     NSString* javaScript = nil;
-                    
+
+    NSString* serviceType = [command.arguments objectAtIndex:0];
+    NSString* searchForServiceType = [NSString stringWithFormat:@"_%@._tcp.", serviceType];
+
     NetServiceBrowserDelegate *nsBrowserDelegate;
     nsBrowserDelegate = [[NetServiceBrowserDelegate alloc] init];
     serviceBrowser = [[NSNetServiceBrowser alloc] init];
     [serviceBrowser setDelegate:(id)nsBrowserDelegate];
-    [serviceBrowser searchForServicesOfType:@"_BonjourSample._tcp." inDomain:@"local."];
+    [serviceBrowser searchForServicesOfType:searchForServiceType inDomain:@"local."];
 
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     javaScript = [pluginResult toSuccessCallbackString:command.callbackId];
@@ -56,6 +59,9 @@ You can make a call to this method to publish a bonjour service
     CDVPluginResult* pluginResult = nil;
     NSString* javaScript = nil;
     
+    NSString* serviceType = [command.arguments objectAtIndex:0];
+    NSString* searchForServiceType = [NSString stringWithFormat:@"_%@._tcp.", serviceType];
+
     SocketServerDelegate *serverDelegate; // all the server socket delegate methods will be in SocketServerDelegate.m
     serverDelegate = [[SocketServerDelegate alloc] init];
     
@@ -77,7 +83,7 @@ You can make a call to this method to publish a bonjour service
         nsPublicationDelegate = [[NetServicePublicationDelegate alloc] init];
 
 		service = [[NSNetService alloc] initWithDomain:@"local."
-                                        type:@"_BonjourSample._tcp."
+                                        type:searchForServiceType
                                         name:@""
                                         port:port];
 
