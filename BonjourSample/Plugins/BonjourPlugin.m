@@ -20,25 +20,30 @@
 
 NSNetService *service;
 NSNetServiceBrowser *serviceBrowser;
+NetServiceResolutionDelegate *nsResolutionDelegate;
+GCDAsyncSocket *serverSocket;
 
 @implementation BonjourPlugin
 
 /***
-sendData is called from the browser page pagebeforeshow event.
+browse is called from the browser page pagebeforeshow event.
 A service browser is created and begins searching, it's
 delegate methods are in NetServiceBrowserDelegate.m
 You can make a call to this method to start a bonjour browser
 ***/
-- (void) sendData:(CDVInvokedUrlCommand*)command
+- (void) startBrowser:(CDVInvokedUrlCommand*)command
 {
     CDVPluginResult* pluginResult = nil;
     NSString* javaScript = nil;
-                    
+
+    NSString* serviceType = [command.arguments objectAtIndex:0];
+    NSString* searchForServiceType = [NSString stringWithFormat:@"_%@._tcp.", serviceType];
+
     NetServiceBrowserDelegate *nsBrowserDelegate;
     nsBrowserDelegate = [[NetServiceBrowserDelegate alloc] init];
     serviceBrowser = [[NSNetServiceBrowser alloc] init];
     [serviceBrowser setDelegate:(id)nsBrowserDelegate];
-    [serviceBrowser searchForServicesOfType:@"_BonjourSample._tcp." inDomain:@"local."];
+    [serviceBrowser searchForServicesOfType:searchForServiceType inDomain:@"local."];
 
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     javaScript = [pluginResult toSuccessCallbackString:command.callbackId];
@@ -46,28 +51,33 @@ You can make a call to this method to start a bonjour browser
 }
 
 /*** 
-receiveData is called from the publish page pagebeforeshow event.
+publishService is called from the publish page pagebeforeshow event.
 A service browser is created and begins searching, it's
 delegate methods are in NetServiceBrowserDelegate.m
 You can make a call to this method to publish a bonjour service
 ***/
-- (void) receiveData:(CDVInvokedUrlCommand*)command
+- (void) publishService:(CDVInvokedUrlCommand*)command
 {
     CDVPluginResult* pluginResult = nil;
     NSString* javaScript = nil;
     
+    NSString* serviceType = [command.arguments objectAtIndex:0];
+    NSString* searchForServiceType = [NSString stringWithFormat:@"_%@._tcp.", serviceType];
+
     SocketServerDelegate *serverDelegate; // all the server socket delegate methods will be in SocketServerDelegate.m
     serverDelegate = [[SocketServerDelegate alloc] init];
     
-    GCDAsyncSocket *listenSocket;
-    listenSocket = [[GCDAsyncSocket alloc] initWithDelegate:serverDelegate delegateQueue:dispatch_get_main_queue()];
+//    GCDAsyncSocket *listenSocket;
+    if (!serverSocket) {
+        serverSocket = [[GCDAsyncSocket alloc] initWithDelegate:serverDelegate delegateQueue:dispatch_get_main_queue()];
+    }
     
     NSError *err = nil;
-	if ([listenSocket acceptOnPort:0 error:&err]) // create the server socket
+	if ([serverSocket acceptOnPort:0 error:&err]) // create the server socket
 	{
 		// So what port did the OS give us?
 
-		UInt16 port = [listenSocket localPort];
+		UInt16 port = [serverSocket localPort];
         NSLog(@"iOS gave us port %d", port);
 
 		// Create and publish the bonjour service.
@@ -77,7 +87,7 @@ You can make a call to this method to publish a bonjour service
         nsPublicationDelegate = [[NetServicePublicationDelegate alloc] init];
 
 		service = [[NSNetService alloc] initWithDomain:@"local."
-                                        type:@"_BonjourSample._tcp."
+                                        type:searchForServiceType
                                         name:@""
                                         port:port];
 
@@ -123,8 +133,10 @@ You can make a call to this method to publish a bonjour service
         }
     }
     
-    NetServiceResolutionDelegate *nsResolutionDelegate;
-    nsResolutionDelegate = [[NetServiceResolutionDelegate alloc] init];
+    if (!nsResolutionDelegate) {
+//    NetServiceResolutionDelegate *nsResolutionDelegate;
+        nsResolutionDelegate = [[NetServiceResolutionDelegate alloc] init];
+    }
     [[servicesArray objectAtIndex:matchedNameIndex] setDelegate:nsResolutionDelegate]; // use matchedNameIndex for right service selected
     [[servicesArray objectAtIndex:matchedNameIndex] resolveWithTimeout:5.0]; // use matchedNameIndex for right service selected
     
@@ -134,7 +146,7 @@ You can make a call to this method to publish a bonjour service
 }
 
 // this is called from the publish page pagehide event & when device has received json from sending device
-- (void) stopService:(CDVInvokedUrlCommand *)command
+- (void) unpublishService:(CDVInvokedUrlCommand *)command
 {
     CDVPluginResult* pluginResult = nil;
     NSString* javaScript = nil;
@@ -148,7 +160,7 @@ You can make a call to this method to publish a bonjour service
 }
 
 // this is called from the browser page pagehide event & when device has sent json to receiving device
-- (void) stopServiceBrowser:(CDVInvokedUrlCommand *)command
+- (void) stopBrowser:(CDVInvokedUrlCommand *)command
 {
     CDVPluginResult* pluginResult = nil;
     NSString* javaScript = nil;
@@ -159,5 +171,39 @@ You can make a call to this method to publish a bonjour service
     javaScript = [pluginResult toSuccessCallbackString:command.callbackId];
     [self writeJavascript:javaScript];
 }
+
+// this is called when a device wants to sendData
+- (void) sendDataToServer:(CDVInvokedUrlCommand *)command
+{
+    CDVPluginResult* pluginResult = nil;
+    NSString* javaScript = nil;
+    NSString* data = [command.arguments objectAtIndex:0];
+
+    NSString *sendDataString = [NSString stringWithFormat:@"%@%@", data, @"\r\n" ]; // append CRLF after the JSON string, it is
+    NSLog(@"sendDataToServer: %@", sendDataString);
+    [[nsResolutionDelegate socket] writeData:[sendDataString dataUsingEncoding:NSUTF8StringEncoding]
+                                 withTimeout:-1 tag:1];
+    
+    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    javaScript = [pluginResult toSuccessCallbackString:command.callbackId];
+    [self writeJavascript:javaScript];
+}
+
+- (void) sendDataToClient:(CDVInvokedUrlCommand *)command
+{
+    CDVPluginResult* pluginResult = nil;
+    NSString* javaScript = nil;
+    NSString* data = [command.arguments objectAtIndex:0];
+    
+    NSString *sendDataString = [NSString stringWithFormat:@"%@%@", data, @"\r\n" ]; // append CRLF after the JSON string, it is
+    NSLog(@"sendDataToClient: %@", sendDataString);
+    [serverSocket writeData:[sendDataString dataUsingEncoding:NSUTF8StringEncoding]
+                                 withTimeout:-1 tag:1];
+    
+    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    javaScript = [pluginResult toSuccessCallbackString:command.callbackId];
+    [self writeJavascript:javaScript];
+}
+
 
 @end

@@ -30,7 +30,11 @@
     [services release];
     [super dealloc];
 }
- 
+
+- (GCDAsyncSocket *)socket {
+    return socket;
+}
+
 // Sent when addresses are resolved
 - (void)netServiceDidResolveAddress:(NSNetService *)netService
 {
@@ -52,11 +56,11 @@
     NSLog(@"address =====> %@", address); // prints out a pointer memory address.  mac, ip, & port can be given from this
     NSLog(@"name ====> %@", name);
     NSLog(@"hostName ===> %@", hostName);
-    
+
     SocketClientDelegate *clientDelegate; // all the client socket delegate methods will be in SocketClientDelegate.m
     clientDelegate = [[SocketClientDelegate alloc] init];
     
-    GCDAsyncSocket *socket;
+//    GCDAsyncSocket *socket;
     socket = [[GCDAsyncSocket alloc] initWithDelegate:clientDelegate delegateQueue:dispatch_get_main_queue()];
     NSError *err = nil;
     //if (![socket connectToHost:ipString onPort:port error:&err]) // Asynchronous!
@@ -65,6 +69,8 @@
         // If there was an error, it's likely something like "already connected" or "no delegate set"
         NSLog(@"I goofed: %@", err);
     }
+
+    NSLog(@"*********** CONNECTED ************");
 }
  
 // Sent if resolution fails

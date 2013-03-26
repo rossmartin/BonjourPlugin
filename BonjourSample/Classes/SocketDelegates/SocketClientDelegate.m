@@ -25,9 +25,23 @@
     //NSString *someStr = @"test string \r\n"; // use CRLF for stream terminator
     //NSData *someData = [someStr dataUsingEncoding:NSUTF8StringEncoding];
     //[sender writeData:someData withTimeout:-1 tag:1];
-    
+
+    NSString* address = [NSString stringWithFormat:@"%@:%hu", host, port];
+
+    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    NSString *jsCallBack = [[NSString alloc] initWithFormat:@"window.plugins.bonjour.didConnectToHost('%@');", address];
+    [appDelegate.viewController.webView stringByEvaluatingJavaScriptFromString:jsCallBack];
+
     // put a read in the queue, read all the way to CRLF
     [sender readDataToData:[GCDAsyncSocket CRLFData] withTimeout:-1 tag:TAG_READ_RECEIVER_DATA];
+}
+
+
+// GCDAsyncSocket delegate, this writeData is for data coming from server (device receiving JSON)
+- (void)socket:(GCDAsyncSocket *)sender writeData:(NSData *)data withTag:(long)tag
+{
+    NSString *sendDataString = [NSString stringWithFormat:@"%@%@", data, @"\r\n" ]; // append CRLF after the JSON string, it is the stream terminator
+    [sender writeData:[sendDataString dataUsingEncoding:NSUTF8StringEncoding] withTimeout:-1 tag:TAG_SEND_JSON_DATA];
 }
 
 // GCDAsyncSocket delegate, this didReadData is for data coming from server (device receiving JSON)
@@ -38,7 +52,15 @@
         NSLog(@"didReadData method tag (TAG_READ_RECEIVER_DATA) in SocketClientDelegate.m");
         NSString *dataString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         NSLog(@"data in SocketClientDelegate.m didReadData ===> %@", dataString); // resonse from server, asking for JSON
+
+        NSLog(@"*********** didReadData ************");
         
+        
+        AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+        NSString *theData = [dataString substringToIndex:[dataString length]-2]; //trim the \r\n
+        NSString *jsCallBack = [[NSString alloc] initWithFormat:@"window.plugins.bonjour.clientReceivedData('%@');", theData];
+        [appDelegate.viewController.webView stringByEvaluatingJavaScriptFromString:jsCallBack];
+
         // get nsdata - I'm leaving this below, this shows how you could get JSON from an existing file
         
         //NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -49,7 +71,7 @@
         //if (!fileData){
         //    NSLog(@"Error - File not found");
         //}
-        
+/*JSS-
         NSMutableArray *jsonArray;
         jsonArray = [NSMutableArray arrayWithObjects: @"The", @"best", @"things", @"in", @"life", @"are", @"free", @" ;'~) ", nil];
         // the JSON data can have an apostrophe in it, like the last index in the array above
@@ -60,6 +82,7 @@
         NSString *sendDataString = [NSString stringWithFormat:@"%@%@", jsonString, @"\r\n" ]; // append CRLF after the JSON string, it is the stream terminator
         
         [sender writeData:[sendDataString dataUsingEncoding:NSUTF8StringEncoding] withTimeout:-1 tag:TAG_SEND_JSON_DATA];
+-JSS*/
     }
 }
 
@@ -78,7 +101,15 @@
 // GCDAsyncSocket delegate, called when a socket disconnects with or without error
 - (void)socketDidDisconnect:(GCDAsyncSocket *)sender withError:(NSError *)error
 {
-    NSLog(@"socketDidDisconnect is firing in SocketClientDelegate.m for device sending (client)");
+    NSLog(@"JSS: socketDidDisconnect is firing in SocketClientDelegate.m for device sending (client)");
+    NSLog(@"Error Text: %@", [error localizedDescription]);
+    
+    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+
+    NSString *errorText = [error localizedDescription];
+    NSString *jsCallBack = [[NSString alloc] initWithFormat:@"window.plugins.bonjour.clientSocketDidDisconnect('%@');", errorText];
+    [appDelegate.viewController.webView stringByEvaluatingJavaScriptFromString:jsCallBack];
+
 }
 
 @end

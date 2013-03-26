@@ -52,10 +52,10 @@
         [sender readDataToData:[GCDAsyncSocket CRLFData] withTimeout:-1 tag:1]; // read all the way to CRLF terminator
         
         NSString *dataString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        NSLog(@"didReadData in SocketServerDelegate.m, JSON data coming from client (device sending) is ===> %@", dataString);
-        
+        NSLog(@"*** SocketServerDelegate.didReadData ===> %@", dataString);
+
         NSString *jsonEscaped = [dataString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        
+        /*
         // store nsdata - this will store the JSON byte stream to JSON-Received.txt
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *documentsDirectory = [paths objectAtIndex:0]; // access documents directory
@@ -63,12 +63,17 @@
         
         [data writeToFile:filePath atomically:YES];
         //Write it overwriting any previous file (atomically writes to a temporary location before copying to permanent - good protection in case app should crash)
+         */
         
         AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+        NSString *theData = [dataString substringToIndex:[dataString length]-2]; //trim the \r\n
+        NSString *jsCallBack = [[NSString alloc] initWithFormat:@"window.plugins.bonjour.serverReceivedData('%@');", theData];
+        [appDelegate.viewController.webView stringByEvaluatingJavaScriptFromString:jsCallBack];
+        
         [appDelegate.viewController.webView stringByEvaluatingJavaScriptFromString:@"showDialog(102);"]; // show success for receiving JSON data
         [appDelegate.viewController.webView stringByEvaluatingJavaScriptFromString:@"changePublishPage();"]; // in bonjour.js
-        NSString *jsCallBack = [[NSString alloc] initWithFormat:@"showDataReceived('%@');", jsonEscaped]; // show received JSON data function in bonjour.js
-        [appDelegate.viewController.webView stringByEvaluatingJavaScriptFromString:jsCallBack];
+        NSString *jsCallBack2 = [[NSString alloc] initWithFormat:@"showDataReceived('%@');", jsonEscaped]; // show received JSON data function in bonjour.js
+        [appDelegate.viewController.webView stringByEvaluatingJavaScriptFromString:jsCallBack2];
     }
     
 }
@@ -85,7 +90,17 @@
 // GCDAsyncSocket delegate, called when a socket disconnects with or without error
 - (void)socketDidDisconnect:(GCDAsyncSocket *)sender withError:(NSError *)error
 {
-    NSLog(@"socketDidDisconnect is firing in BonjourPlugin.m for device receiving (server)");
+    NSLog(@"socketDidDisconnect is firing in SocketServerDelegate.m for device receiving (server)");
+
+    NSLog(@"Error Text: %@", [error localizedDescription]);
+    
+    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+
+    NSString *errorText = [error localizedDescription];
+    NSString *jsCallBack = [[NSString alloc] initWithFormat:@"window.plugins.bonjour.serverSocketDidDisconnect('%@');", errorText];
+    [appDelegate.viewController.webView stringByEvaluatingJavaScriptFromString:jsCallBack];
+
+
 }
 
 @end

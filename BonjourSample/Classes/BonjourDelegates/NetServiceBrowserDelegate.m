@@ -85,10 +85,10 @@
         //NSLog(@"jsonEscaped ===> %@", jsonEscaped);
         
         AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-        NSString *jsCallBack = [[NSString alloc] initWithFormat:@"appendNetworkDevices('%@');", jsonEscaped]; // appendNetworkDevices in bonjour.js
-        //NSLog(@"jsCallBack ===> %@", jsCallBack);
+
+        NSString *jsCallBack = [[NSString alloc] initWithFormat:@"window.plugins.bonjour.didFindService('%@');", jsonEscaped];
         [appDelegate.viewController.webView stringByEvaluatingJavaScriptFromString:jsCallBack];
-                
+        
         [self updateUI];
     }
     //NSLog(@"didFindService method is done being called");
@@ -108,10 +108,10 @@
     serviceNameEscaped = [[aNetService name] stringByReplacingOccurrencesOfString:@"'" withString:@"&#39;"]; // replace apostrophe with html entity so string can be passed below
     serviceNameEscaped = [serviceNameEscaped stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]; // URL encode
     AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-    NSString *jsCallBack = [[NSString alloc] initWithFormat:@"removeNetworkDevice('%@');", serviceNameEscaped]; // removeNetworkDevice in bonjour.js
+    NSString *jsCallBack = [[NSString alloc] initWithFormat:@"window.plugins.bonjour.didRemoveService('%@');", serviceNameEscaped]; // removeNetworkDevice in bonjour.js
     //NSLog(@"jsCallBack ===> %@", jsCallBack);
     [appDelegate.viewController.webView stringByEvaluatingJavaScriptFromString:jsCallBack];
-    
+ 
     if(!moreComing)
     {
         NSLog(@"didRemoveService if (!moreComing)");

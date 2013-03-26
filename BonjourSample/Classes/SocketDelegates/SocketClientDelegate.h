@@ -14,6 +14,8 @@
 - (void)socket:(GCDAsyncSocket *)sender didConnectToHost:(NSString *)host port:(UInt16)port;
 - (void)socket:(GCDAsyncSocket *)sender didReadData:(NSData *)data withTag:(long)tag;
 - (void)socket:(GCDAsyncSocket *)sock didWriteDataWithTag:(long)tag;
+- (void)socket:(GCDAsyncSocket *)sender writeData:(NSData *)data withTag:(long)tag;
+
 - (void)socketDidDisconnect:(GCDAsyncSocket *)sender withError:(NSError *)error;
 
 @end
