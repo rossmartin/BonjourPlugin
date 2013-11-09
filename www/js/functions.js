@@ -71,7 +71,7 @@ function changePage(page){
 	$.mobile.changePage($(page));
 }
 
-function showDialog(code, messageVar){ // v1.1.4 RDM adding extra parameter messageVar to include dynamic messages
+function showDialog(code, messageVar){
 	console.log(arguments.callee.name + ": " + code);
 	var message;
 	var title;
