@@ -6,18 +6,18 @@ var deviceNameToSendData;
 $(function(){ // start of dom ready
 
     $("#mainPage").on("click", "#publishService", function(){
-        if (wirelessIsConnected()){ // checks to see if device has wifi connection
+        if (wirelessIsConnected()){
             changePage("#publishPage");
         } else {
-            showDialog(401); // show error for no wifi connectivity
+            showDialog(401);
         }
     });
 
     $("#mainPage").on("click", "#startBrowser", function(){
-        if (wirelessIsConnected()){ // checks to see if device has wifi connection
+        if (wirelessIsConnected()){
             changePage("#browserPage");
         } else {
-            showDialog(401); // show error for no wifi connectivity
+            showDialog(401);
         }
     });
   
