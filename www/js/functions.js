@@ -2,7 +2,7 @@
 
 //set jQuery Mobile Defaults
 $(document).bind("mobileinit", function(){
-	$.mobile.defaultPageTransition = "none"; // no page transitions b/c slower devices can't render
+    $.mobile.defaultPageTransition = "none"; // no page transitions b/c slower devices can't render
 });
 
 $(function(){
@@ -77,31 +77,31 @@ function showDialog(code, messageVar){
 	var title;
 	var buttonName = "OK";
 	
-    switch(code){
+	switch(code){
 
-    //success
-    case 101:
-        title = "Data Successfully Sent"
-        message = "The JSON data was successfully sent to " + deviceNameToSendData + ".";
-        break;
+	    //success
+	    case 101:
+	        title = "Data Successfully Sent"
+	        message = "The JSON data was successfully sent to " + deviceNameToSendData + ".";
+	        break;
+	        
+	    case 102:
+	        title = "Data Successfully Received"
+	        message = "The JSON data was received.";
+	        break;
+	        
+	    //errors
+	    case 401:
+	        title = "No Internets Ruh Roh"
+	        message = "Please connect this device to your wireless router.";
+	        break;
+	        
+	    default: 
+	        title = "Alert";
+	    	message = "Default Alert Message";
+	        break;
         
-    case 102:
-        title = "Data Successfully Received"
-        message = "The JSON data was received.";
-        break;
-        
-    //errors
-    case 401:
-        title = "No Internets Ruh Roh"
-        message = "Please connect this device to your wireless router.";
-        break;
-        
-    default: 
-        title = "Alert";
-    	message = "Default Alert Message";
-        break;
-        
-    } 
+	} 
 
     navigator.notification.confirm(message, defaultAlertCallback, title, buttonName);
 }
